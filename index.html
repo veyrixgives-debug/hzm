@@ -25,8 +25,8 @@ button:hover{transform:translateY(-2px);}
 .progress-container { background:#1c2d5c; border-radius:10px; height:20px; width:100%; overflow:hidden; margin-bottom:10px;}
 .progress-bar { height:100%; width:0%; background: linear-gradient(90deg,#008cff,#00c6ff); transition: width 0.5s; }
 .reward-text { margin-top:10px; font-weight:bold; color:#00ff6a; display:none; text-align:center; }
-.offer { background:linear-gradient(90deg,#008cff,#00c6ff); padding:12px; margin-bottom:10px; border-radius:10px; cursor:pointer; font-weight:600; position:relative; }
-.offer.done { opacity:0.6; text-decoration:line-through; }
+.offer { background:linear-gradient(90deg,#008cff,#00c6ff); padding:12px; margin-bottom:10px; border-radius:10px; cursor:pointer; font-weight:600; position:relative; overflow:hidden;}
+.offer.done { opacity:0.6; text-decoration:line-through; cursor:default;}
 .processing-overlay { position:absolute; inset:0; background:rgba(255,255,255,0.3); display:flex; justify-content:center; align-items:center; font-weight:bold; color:#000; font-size:16px; border-radius:10px; display:none; }
 </style>
 </head>
@@ -133,6 +133,7 @@ function fetchOffers(){
       const el=document.createElement("div");
       el.className="offer";
       el.textContent=offer.name || `Offer ${index+1}`;
+
       const overlay=document.createElement("div");
       overlay.className="processing-overlay";
       overlay.textContent="Processing...";
@@ -140,20 +141,22 @@ function fetchOffers(){
 
       el.addEventListener("click",()=>{
         if(!el.classList.contains("done") && overlay.style.display==="none"){
+          // Open actual offer in new tab
+          window.open(offer.url,"_blank");
           overlay.style.display="flex";
-          fakeProcessing(overlay,()=>{ // After fake processing
+          // Fake processing: 60-120 seconds
+          const delay=Math.floor(Math.random()*60+60)*1000;
+          setTimeout(()=>{
             el.classList.add("done");
             overlay.style.display="none";
             doneCount++;
             doneCountEl.textContent=doneCount;
             updateProgress();
-            if(doneCount>=2){
-              rewardText.style.display="block";
-            }
-          });
-          window.open(offer.url,"_blank");
+            if(doneCount>=2){ rewardText.style.display="block"; }
+          },delay);
         }
       });
+
       offersContainer.appendChild(el);
     });
   })
@@ -163,18 +166,9 @@ function fetchOffers(){
   });
 }
 
-// Fake processing overlay animation
-function fakeProcessing(overlay,callback){
-  let width=0;
-  const interval=setInterval(()=>{
-    width+=Math.floor(Math.random()*5+2); // random speed
-    if(width>=100){ width=100; clearInterval(interval); callback(); }
-    progressBar.style.width=width+"%";
-  },500);
-}
-
+// Update progress bar
 function updateProgress(){
-  let pct = Math.min(100, (doneCount/2)*100 );
+  let pct=Math.min(100,(doneCount/2)*100);
   progressBar.style.width=pct+"%";
 }
 </script>
