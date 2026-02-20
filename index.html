@@ -6,141 +6,130 @@
 <title>hzm Redeem</title>
 
 <style>
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: Arial, Helvetica, sans-serif;
+*{margin:0;padding:0;box-sizing:border-box;font-family:Arial,Helvetica,sans-serif}
+
+body{
+height:100vh;
+display:flex;
+justify-content:center;
+align-items:center;
+background:radial-gradient(circle at top,#0b1c3d,#050b1f 70%);
+color:white;
 }
 
-body {
-    height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background: radial-gradient(circle at top, #0b1c3d, #050b1f 70%);
-    color: white;
+.container{
+width:350px;
+display:flex;
+flex-direction:column;
+gap:18px;
 }
 
-/* Main container */
-.container {
-    width: 350px;
-    display: flex;
-    flex-direction: column;
-    gap: 18px;
+.logo{
+text-align:center;
+font-size:40px;
+font-weight:bold;
+letter-spacing:4px;
 }
 
-/* Logo */
-.logo {
-    text-align: center;
-    font-size: 40px;
-    font-weight: bold;
-    letter-spacing: 4px;
-    margin-bottom: 10px;
+input{
+padding:14px;
+background:transparent;
+border-radius:6px;
+font-size:15px;
+color:white;
+border:1px solid #555;
 }
 
-/* Inputs */
-input {
-    padding: 14px;
-    background: transparent;
-    border-radius: 6px;
-    font-size: 15px;
-    color: white;
-    border: 1px solid #555;
+input:focus{
+outline:none;
+border-color:#00aaff;
+box-shadow:0 0 8px rgba(0,170,255,0.5);
 }
 
-input:focus {
-    outline: none;
-    border-color: #00aaff;
-    box-shadow: 0 0 8px rgba(0,170,255,0.5);
+.locked{
+pointer-events:none;
+user-select:none;
+border:1px solid white;
+box-shadow:0 0 6px rgba(255,255,255,0.4);
+text-align:center;
 }
 
-/* Locked 2,000 Robux field */
-.locked {
-    pointer-events: none;
-    user-select: none;
-    border: 1px solid white;
-    box-shadow: 0 0 6px rgba(255,255,255,0.4);
-    text-align: center;
+button{
+padding:14px;
+border:none;
+border-radius:6px;
+font-weight:bold;
+cursor:pointer;
+background:linear-gradient(90deg,#008cff,#00c6ff);
+color:white;
+transition:0.2s;
 }
 
-/* Button */
-button {
-    padding: 14px;
-    border: none;
-    border-radius: 6px;
-    font-weight: bold;
-    cursor: pointer;
-    background: linear-gradient(90deg, #008cff, #00c6ff);
-    color: white;
-    transition: 0.2s;
+button:hover{
+transform:translateY(-2px);
 }
 
-button:hover {
-    transform: translateY(-2px);
-}
-
-.error {
-    height: 18px;
-    font-size: 14px;
-    color: #ff4d6d;
-    text-align: center;
+.error{
+height:18px;
+font-size:14px;
+color:#ff4d6d;
+text-align:center;
 }
 
 /* Modal */
-.modal {
-    position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,0.6);
-    display: none;
-    justify-content: center;
-    align-items: center;
+.modal{
+position:fixed;
+inset:0;
+background:rgba(0,0,0,0.6);
+display:none;
+justify-content:center;
+align-items:center;
 }
 
-.card {
-    width: 380px;
-    background: #0f1f45;
-    border-radius: 16px;
-    padding: 30px;
-    text-align: center;
-    box-shadow: 0 0 25px rgba(0, 140, 255, 0.4);
-    border: 1px solid rgba(0, 140, 255, 0.4);
+.card{
+width:380px;
+background:#0f1f45;
+border-radius:16px;
+padding:30px;
+text-align:center;
+box-shadow:0 0 25px rgba(0,140,255,0.4);
+border:1px solid rgba(0,140,255,0.4);
 }
 
-.avatar {
-    margin: 20px auto;
-    width: 110px;
-    height: 110px;
-    border-radius: 50%;
-    border: 3px solid #00aaff;
-    box-shadow: 0 0 15px #00aaff;
+.avatar{
+margin:20px auto;
+width:110px;
+height:110px;
+border-radius:50%;
+border:3px solid #00aaff;
+box-shadow:0 0 15px #00aaff;
 }
 
-.username {
-    font-size: 20px;
-    font-weight: bold;
-    color: #4da3ff;
+.username{
+font-size:20px;
+font-weight:bold;
+color:#4da3ff;
 }
 
-.handle {
-    font-size: 14px;
-    color: #9bbcff;
+.handle{
+font-size:14px;
+color:#9bbcff;
 }
 
-.buttons {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 20px;
+.buttons{
+display:flex;
+justify-content:space-between;
+margin-top:20px;
 }
 
-.no-btn {
-    background: #1c2d5c;
-    width: 45%;
+.no-btn{
+background:#1c2d5c;
+width:45%;
 }
 
-.yes-btn {
-    background: linear-gradient(90deg, #008cff, #00c6ff);
-    width: 45%;
+.yes-btn{
+background:linear-gradient(90deg,#008cff,#00c6ff);
+width:45%;
 }
 </style>
 </head>
@@ -148,92 +137,98 @@ button:hover {
 
 <div class="container">
 
-    <div class="logo">hzm</div>
+<div class="logo">hzm</div>
 
-    <input type="text" value="2,000 Robux" class="locked" readonly>
-    <input type="text" id="usernameInput" placeholder="Roblox Username">
+<input type="text" value="2,000 Robux" class="locked" readonly>
+<input type="text" id="usernameInput" placeholder="Roblox Username">
 
-    <button id="redeemBtn">Redeem</button>
-    <div class="error" id="errorMsg"></div>
+<button id="redeemBtn">Redeem</button>
+<div class="error" id="errorMsg"></div>
 
 </div>
 
 <!-- Modal -->
 <div class="modal" id="profileModal">
-    <div class="card">
-        <h3>✔ Confirm Your Profile</h3>
-        <p style="margin-top:6px;color:#9bbcff;">Is this your Roblox account?</p>
+<div class="card">
+<h3>✔ Confirm Your Profile</h3>
+<p style="margin-top:6px;color:#9bbcff;">Is this your Roblox account?</p>
 
-        <img id="avatar" class="avatar" src="">
-        <div id="displayName" class="username"></div>
-        <div id="handle" class="handle"></div>
+<img id="avatar" class="avatar" src="">
+<div id="displayName" class="username"></div>
+<div id="handle" class="handle"></div>
 
-        <div class="buttons">
-            <button class="no-btn" onclick="closeModal()">No</button>
-            <button class="yes-btn">Yes!</button>
-        </div>
-    </div>
+<div class="buttons">
+<button class="no-btn" onclick="closeModal()">No</button>
+<button class="yes-btn">Yes!</button>
+</div>
+
+</div>
 </div>
 
 <script>
-// 🔹 SET CORRECT USER ID HERE
+
+// 🔹 CHANGE THIS TO THE USER ID YOU WANT
 const CORRECT_USER_ID = 1;
 
 const redeemBtn = document.getElementById("redeemBtn");
 const errorMsg = document.getElementById("errorMsg");
 
 redeemBtn.addEventListener("click", async () => {
-    const inputUsername = document.getElementById("usernameInput").value.trim();
-    errorMsg.textContent = "";
 
-    if (!inputUsername) {
-        errorMsg.textContent = "Enter a username.";
-        return;
-    }
+const inputUsername = document.getElementById("usernameInput").value.trim();
+errorMsg.textContent = "";
 
-    try {
-        const res = await fetch("https://users.roblox.com/v1/usernames/users", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-                usernames: [inputUsername],
-                excludeBannedUsers: false
-            })
-        });
+if (!inputUsername) {
+errorMsg.textContent = "Enter a username.";
+return;
+}
 
-        const data = await res.json();
+try {
 
-        if (!data.data.length) {
-            errorMsg.textContent = "User not found.";
-            return;
-        }
+// ✅ CALL YOUR VERCEL API (NOT ROBLOX DIRECTLY)
+const res = await fetch("/api/roblox", {
+method: "POST",
+headers: { "Content-Type": "application/json" },
+body: JSON.stringify({
+usernames: [inputUsername],
+excludeBannedUsers: false
+})
+});
 
-        const foundUser = data.data[0];
+const data = await res.json();
 
-        if (foundUser.id !== CORRECT_USER_ID) {
-            errorMsg.textContent = "Incorrect username.";
-            return;
-        }
+if (!data.data || !data.data.length) {
+errorMsg.textContent = "User not found.";
+return;
+}
 
-        document.getElementById("displayName").textContent = foundUser.displayName;
-        document.getElementById("handle").textContent = "@" + foundUser.name;
+const foundUser = data.data[0];
 
-        const avatarRes = await fetch(
-            `https://thumbnails.roblox.com/v1/users/avatar-headshot?userIds=${foundUser.id}&size=420x420&format=Png&isCircular=true`
-        );
-        const avatarData = await avatarRes.json();
-        document.getElementById("avatar").src = avatarData.data[0].imageUrl;
+if (foundUser.id !== CORRECT_USER_ID) {
+errorMsg.textContent = "Incorrect username.";
+return;
+}
 
-        document.getElementById("profileModal").style.display = "flex";
+// Load profile
+document.getElementById("displayName").textContent = foundUser.displayName;
+document.getElementById("handle").textContent = "@" + foundUser.name;
 
-    } catch {
-        errorMsg.textContent = "Something went wrong.";
-    }
+// Avatar (this endpoint works directly)
+document.getElementById("avatar").src =
+`https://thumbnails.roblox.com/v1/users/avatar-headshot?userIds=${foundUser.id}&size=420x420&format=Png&isCircular=true`;
+
+document.getElementById("profileModal").style.display = "flex";
+
+} catch (err) {
+errorMsg.textContent = "Server error.";
+}
+
 });
 
 function closeModal() {
-    document.getElementById("profileModal").style.display = "none";
+document.getElementById("profileModal").style.display = "none";
 }
+
 </script>
 
 </body>
