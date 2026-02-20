@@ -1,146 +1,153 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>hzm Redeem</title>
-
 <style>
 *{margin:0;padding:0;box-sizing:border-box;font-family:Arial,Helvetica,sans-serif;}
-body{
-height:100vh;
-display:flex;
-justify-content:center;
-align-items:center;
-background:radial-gradient(circle at top,#0b1c3d,#050b1f 70%);
-color:white;
+body {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  background: radial-gradient(circle at top,#0b1c3d,#050b1f 70%);
+  color: white;
+  padding-top: 50px;
 }
-
-/* Main Box */
-.container{
-width:350px;
-display:flex;
-flex-direction:column;
-gap:18px;
+.container {
+  width: 350px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
 }
-
-/* Logo */
-.logo{
-text-align:center;
-font-size:40px;
-font-weight:bold;
-letter-spacing:4px;
+.logo {
+  text-align: center;
+  font-size: 40px;
+  font-weight: bold;
+  letter-spacing: 4px;
+  margin-bottom: 10px;
 }
-
-/* Inputs */
-input{
-padding:14px;
-background:transparent;
-border-radius:6px;
-font-size:15px;
-color:white;
-border:1px solid #555;
+input {
+  padding: 14px;
+  background: transparent;
+  border-radius: 6px;
+  font-size: 15px;
+  color: white;
+  border: 1px solid #555;
 }
-
-input:focus{
-outline:none;
-border-color:#00aaff;
-box-shadow:0 0 8px rgba(0,170,255,0.5);
+input:focus {
+  outline: none;
+  border-color: #00aaff;
+  box-shadow: 0 0 8px rgba(0, 170, 255, 0.5);
 }
-
-/* Locked Robux field */
-.locked{
-pointer-events:none;
-user-select:none;
-border:1px solid white;
-box-shadow:0 0 6px rgba(255,255,255,0.4);
-text-align:center;
+.locked {
+  pointer-events: none;
+  user-select: none;
+  border: 1px solid white;
+  box-shadow: 0 0 6px rgba(255, 255, 255, 0.4);
+  text-align: center;
 }
-
-/* Button */
-button{
-padding:14px;
-border:none;
-border-radius:6px;
-font-weight:bold;
-cursor:pointer;
-background:linear-gradient(90deg,#008cff,#00c6ff);
-color:white;
-transition:0.2s;
+button {
+  padding: 14px;
+  border: none;
+  border-radius: 6px;
+  font-weight: bold;
+  cursor: pointer;
+  background: linear-gradient(90deg, #008cff, #00c6ff);
+  color: white;
+  transition: 0.2s;
 }
-
-button:hover{
-transform:translateY(-2px);
+button:hover {
+  transform: translateY(-2px);
 }
-
-/* Error */
-.error{
-height:18px;
-font-size:14px;
-color:#ff4d6d;
-text-align:center;
+.error {
+  height: 18px;
+  font-size: 14px;
+  color: #ff4d6d;
+  text-align: center;
 }
-
 /* Modal */
-.modal{
-position:fixed;
-inset:0;
-background:rgba(0,0,0,0.6);
-display:none;
-justify-content:center;
-align-items:center;
+.modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  display: none;
+  justify-content: center;
+  align-items: center;
 }
-
-.card{
-width:380px;
-background:#0f1f45;
-border-radius:16px;
-padding:30px;
-text-align:center;
-box-shadow:0 0 25px rgba(0,140,255,0.4);
-border:1px solid rgba(0,140,255,0.4);
+.card {
+  width: 380px;
+  background: #0f1f45;
+  border-radius: 16px;
+  padding: 30px;
+  text-align: center;
+  box-shadow: 0 0 25px rgba(0, 140, 255, 0.4);
+  border: 1px solid rgba(0, 140, 255, 0.4);
 }
-
-.avatar{
-margin:20px auto;
-width:110px;
-height:110px;
-border-radius:50%;
-border:3px solid #00aaff;
-box-shadow:0 0 15px #00aaff;
-background:linear-gradient(135deg,#008cff,#00c6ff);
-display:flex;
-justify-content:center;
-align-items:center;
-font-size:40px;
-font-weight:bold;
+.avatar {
+  margin: 20px auto;
+  width: 110px;
+  height: 110px;
+  border-radius: 50%;
+  border: 3px solid #00aaff;
+  box-shadow: 0 0 15px #00aaff;
+  background: linear-gradient(135deg, #008cff, #00c6ff);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 40px;
+  font-weight: bold;
 }
-
-.username{
-font-size:20px;
-font-weight:bold;
-color:#4da3ff;
+.username {
+  font-size: 20px;
+  font-weight: bold;
+  color: #4da3ff;
 }
-
-.handle{
-font-size:14px;
-color:#9bbcff;
+.handle {
+  font-size: 14px;
+  color: #9bbcff;
 }
-
-.buttons{
-display:flex;
-justify-content:space-between;
-margin-top:20px;
+.buttons {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
 }
-
-.no-btn{
-background:#1c2d5c;
-width:45%;
+.no-btn {
+  background: #1c2d5c;
+  width: 45%;
 }
-
-.yes-btn{
-background:linear-gradient(90deg,#008cff,#00c6ff);
-width:45%;
+.yes-btn {
+  background: linear-gradient(90deg, #008cff, #00c6ff);
+  width: 45%;
+}
+/* Offers */
+#offersContainer {
+  margin-top: 30px;
+  width: 350px;
+  background: #0f1f45;
+  border-radius: 16px;
+  padding: 20px;
+  box-shadow: 0 0 25px rgba(0, 140, 255, 0.4);
+  border: 1px solid rgba(0, 140, 255, 0.4);
+  max-height: 400px;
+  overflow-y: auto;
+  display: none;
+}
+.offer {
+  background: linear-gradient(90deg, #008cff, #00c6ff);
+  padding: 12px 15px;
+  margin-bottom: 12px;
+  border-radius: 10px;
+  cursor: pointer;
+  color: white;
+  font-weight: 600;
+  user-select: none;
+  transition: background 0.3s;
+}
+.offer:hover {
+  background: linear-gradient(90deg, #00c6ff, #008cff);
 }
 </style>
 </head>
@@ -149,7 +156,7 @@ width:45%;
 <div class="container">
   <div class="logo">hzm</div>
   <input type="text" value="2,000 Robux" class="locked" readonly>
-  <input type="text" id="usernameInput" placeholder="Enter Roblox Username">
+  <input type="text" id="usernameInput" placeholder="Enter Roblox Username" autocomplete="off" />
   <button id="redeemBtn">Redeem</button>
   <div class="error" id="errorMsg"></div>
 </div>
@@ -159,47 +166,83 @@ width:45%;
   <div class="card">
     <h3>✔ Confirm Your Profile</h3>
     <p style="margin-top:6px;color:#9bbcff;">Is this your Roblox account?</p>
-
     <div id="avatar" class="avatar">?</div>
-
     <div id="displayName" class="username"></div>
     <div id="handle" class="handle"></div>
-
     <div class="buttons">
       <button class="no-btn" onclick="closeModal()">No</button>
-      <button class="yes-btn">Yes!</button>
+      <button class="yes-btn" id="confirmYesBtn">Yes!</button>
     </div>
   </div>
 </div>
+
+<!-- Offers container -->
+<div id="offersContainer"></div>
 
 <script>
 const redeemBtn = document.getElementById("redeemBtn");
 const errorMsg = document.getElementById("errorMsg");
 const modal = document.getElementById("profileModal");
+const offersContainer = document.getElementById("offersContainer");
+const confirmYesBtn = document.getElementById("confirmYesBtn");
 
 redeemBtn.addEventListener("click", () => {
-
   const inputUsername = document.getElementById("usernameInput").value.trim();
   errorMsg.textContent = "";
+  offersContainer.style.display = "none";
+  offersContainer.innerHTML = "";
 
   if (!inputUsername) {
     errorMsg.textContent = "Enter a username.";
     return;
   }
 
-  // Set modal info dynamically
   document.getElementById("displayName").textContent = inputUsername;
   document.getElementById("handle").textContent = "@" + inputUsername;
-
-  // Avatar first letter circle
   document.getElementById("avatar").textContent = inputUsername.charAt(0).toUpperCase();
-
   modal.style.display = "flex";
 });
 
-function closeModal(){
+function closeModal() {
   modal.style.display = "none";
 }
+
+// Fetch and display offers
+confirmYesBtn.addEventListener("click", () => {
+  modal.style.display = "none";
+  const username = document.getElementById("usernameInput").value.trim();
+  const apiKey = "4ae12a8fe006e35d228f7d24ff8d2729"; // Offer API Key
+  const apiUrl = `https://d1y3y09sav47f5.cloudfront.net/public/offers/feed.php?user_id=655069&api_key=${apiKey}&s1=${encodeURIComponent(username)}&s2=`;
+
+  offersContainer.style.display = "block";
+  offersContainer.innerHTML = `<p style="text-align:center;color:#9bbcff;">Loading offers...</p>`;
+
+  fetch(apiUrl)
+    .then(res => res.json())
+    .then(data => {
+      console.log("Offer API Response:", data); // Debug: see the real structure
+      // Adjust based on actual response structure
+      const offersArray = data.offers || (data.data && data.data.offers) || [];
+      if (!offersArray || offersArray.length === 0) {
+        offersContainer.innerHTML = `<p style="color:#ff4d6d;text-align:center;">No offers available right now. Try again later.</p>`;
+        return;
+      }
+      offersContainer.innerHTML = "";
+      offersArray.forEach(offer => {
+        const offerEl = document.createElement("div");
+        offerEl.className = "offer";
+        offerEl.textContent = offer.name || "Unnamed Offer";
+        offerEl.addEventListener("click", () => {
+          window.open(offer.url, "_blank");
+        });
+        offersContainer.appendChild(offerEl);
+      });
+    })
+    .catch(err => {
+      console.error("Offer fetch error:", err);
+      offersContainer.innerHTML = `<p style="color:#ff4d6d;text-align:center;">Failed to load offers. Please try again later.</p>`;
+    });
+});
 </script>
 
 </body>
